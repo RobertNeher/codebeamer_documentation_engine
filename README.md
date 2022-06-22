@@ -15,7 +15,7 @@ Please maintain settings and parameters first hand in file _"lib/config/configur
 |---------|---------------|
 |REST_User|User on codebeamer server with REST access permission and permission to access ALL projects|
 |REST_Password|Password of this person|
-|URLPrefix|codebeamer's URL prefix to identify a REST call against specific API version|
+|REST_URL_Prefix|codebeamer's URL prefix to identify a REST call against specific API version|
 |documentationProjectID|The project ID where project documentation data needs to go, the codebeamer template ZIP file is part of this deployment (see assets folder)|
 |associcationName|the name of association for relationships like project --> tracker --> field|
 |trackers|<p>A map to adress the documentation trackers in documentation project (see above)</p><p>**Project** Tracker ID for tracker keeping project documentation</p><p>**Tracker** Tracker ID for tracker keeping tracker documentation</p><p>**Field** Tracker ID for tracker keeping field documentation</p><p>**Option** Tracker ID for tracker keeping option documentation</p>|

@@ -9,7 +9,7 @@ class Configuration {
   // static String _REST_User = 'bond';
   // static String _REST_Password = '007';
   final Map<String, int> _fieldTypes = <String, int>{}; // codebeamer Data Types
-  static const String _URLPrefix = '/api/v3/';
+  static const String _REST_URL_Prefix = '/api/v3/';
   static final String _licenseInfoURL =
       '/sysadmin/configLicense.spr'; // root to REST
 
@@ -199,8 +199,8 @@ class Configuration {
     return _REST_Password;
   }
 
-  String get URLPrefix {
-    return _URLPrefix;
+  String get REST_URL_Prefix {
+    return _REST_URL_Prefix;
   }
 
   String get licenseInfoURL {

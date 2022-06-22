@@ -11,7 +11,8 @@ Future<List<Schema>> fetchSchema(int trackerID, [int? fieldID]) async {
 
   http.Response response = await http.get(
       Uri.https(
-          config.baseURLs['homeServer']!, '/api/v3/trackers/$trackerID/schema'),
+          config.baseURLs['homeServer']!,
+          '${config.REST_URL_Prefix}/trackers/$trackerID/schema'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {
