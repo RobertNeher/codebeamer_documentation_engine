@@ -16,7 +16,7 @@ Future<List<User>> fetchUsers(int? id) async {
 
   var response = await http.get(
     Uri.https(config.baseURLs['homeServer'] as String, id != 0?' /api/v3/groups/$id/members':
-      '/api/v3/users',
+      '${config.REST_URL_Prefix}/users',
           {'page': '1', 'pageSize': maxPageSize.toString()}),
       headers: httpHeader());
 
@@ -29,7 +29,9 @@ Future<List<User>> fetchUsers(int? id) async {
   }
   for (int pageNr = 1; pageNr <= maxPages; pageNr++) {
     response = await http.get(
-        Uri.https(config.baseURLs['homeServer'] as String, '/api/v3/users',
+        Uri.https(
+            config.baseURLs['homeServer'] as String,
+            '${config.REST_URL_Prefix}/users',
             {'page': pageNr.toString(), 'pageSize': maxPageSize.toString()}),
         headers: httpHeader());
 

@@ -11,7 +11,7 @@ Future<List<Relation>> fetchRelations(int workItemID) async {
 
   http.Response response = await http.get(
       Uri.https(config.baseURLs['homeServer']!,
-          '/api/v3/items/$workItemID/relations'),
+          '${config.REST_URL_Prefix}/items/$workItemID/relations'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {

@@ -6,11 +6,11 @@ import 'package:codebeamer_documentation_engine/utils/utils.dart';
 
 Future<List<Group>> fetchGroups() async {
   List<Group> data = <Group>[];
-
   Configuration config = Configuration();
 
   http.Response response = await http.get(
-      Uri.https(config.baseURLs['homeServer']!, '/api/v3/users/groups'),
+      Uri.https(config.baseURLs['homeServer']!,
+          '${config.REST_URL_Prefix}/users/groups'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {

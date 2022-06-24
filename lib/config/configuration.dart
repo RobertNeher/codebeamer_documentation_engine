@@ -9,9 +9,10 @@ class Configuration {
   // static String _REST_User = 'bond';
   // static String _REST_Password = '007';
   final Map<String, int> _fieldTypes = <String, int>{}; // codebeamer Data Types
-  static const String _URLPrefix = '/api/v3/';
-  static final String _licenseInfoURL =
+  static const String _REST_URL_Prefix = '/api/v3/';
+  static const String _licenseInfoURL =
       '/sysadmin/configLicense.spr'; // root to REST
+  static const String _jobsInfoURL = '/sysadmin/quartz/triggers.spr';
 
   Configuration() {
     _fieldTypes.addAll({'Text': 0});
@@ -57,6 +58,17 @@ class Configuration {
     'Content': 200,
   };
 
+  static final Map<String, double> _jobsHeadings = {
+    'Scheduler Name': 100,
+    'Trigger ID': 100,
+    'Trigger Type': 100,
+    'Prriority': 40,
+    'Status': 75,
+    'Scheduled start at': 100,
+    'Last run at': 100,
+    'Next run at': 100
+  };
+
   static final Map<String, double> _groupHeadings = {
     'ID': 30,
     'Name': 200,
@@ -90,6 +102,12 @@ class Configuration {
       'subTitle': 'License details for server "${_baseURLs['homeServer']}"'
     },
     {
+      'topic': 'Jobs',
+      'icon': Icons.work_sharp,
+      'widget': const JobTopic(),
+      'subTitle': 'Jobs on server "${_baseURLs['homeServer']}"'
+    },
+    {
       'topic': 'Groups',
       'icon': Icons.people_sharp,
       'widget': const GroupTopic(),
@@ -107,12 +125,14 @@ class Configuration {
     {
       'topic': 'Trackers',
       'icon': Icons.table_chart_sharp,
-      'widget': const Text('Trackers'),
+      'widget': const TrackerTopic(),
+      'subTitle': 'Trackers of project "#name#" (#id#)'
     },
     {
       'topic': 'Wikis',
       'icon': Icons.document_scanner_sharp,
       'widget': const Text('Wikis'),
+      'subTitle': 'Wikis of project "#name#" (#id#)'
     },
   ];
 
@@ -121,21 +141,25 @@ class Configuration {
       'topic': 'Work Items',
       'icon': Icons.table_chart_sharp,
       'widget': const Text('Work Itens'),
+      'subTitle': 'Work Items of tracker "#name#" (#id#)'
     },
     {
       'topic': 'Fields',
       'icon': Icons.input_sharp,
       'widget': const Text('Fields'),
+      'subTitle': 'Fields of tracker "#name#" (#id#)'
     },
     {
       'topic': 'Baselines',
       'icon': Icons.timeline_sharp,
       'widget': const Text('Baselines'),
+      'subTitle': 'Baselines of tracker "#name#" (#id#)'
     },
     {
       'topic': 'Transitions',
       'icon': Icons.traffic_sharp,
       'widget': const Text('Transitions'),
+      'subTitle': 'Transitions configured for tracker "#name#" (#id#)'
     },
   ];
 
@@ -153,6 +177,10 @@ class Configuration {
 
   Map<String, double> get licenseHeadings {
     return _licenseHeadings;
+  }
+
+  Map<String, double> get jobsHeadings {
+    return _jobsHeadings;
   }
 
   Map<String, double> get groupHeadings {
@@ -199,12 +227,16 @@ class Configuration {
     return _REST_Password;
   }
 
-  String get URLPrefix {
-    return _URLPrefix;
+  String get REST_URL_Prefix {
+    return _REST_URL_Prefix;
   }
 
   String get licenseInfoURL {
     return _licenseInfoURL;
+  }
+
+  String get jobsInfoURL {
+    return _jobsInfoURL;
   }
 
   int get maxPageSize {

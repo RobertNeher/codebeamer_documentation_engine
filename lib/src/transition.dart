@@ -11,7 +11,7 @@ Future<List<Transition>> fetchTransitions(int trackerID) async {
 
   Configuration config = Configuration();
   Uri uri = Uri.https(config.baseURLs['homeServer']!,
-      '/api/v3/trackers/$trackerID/transitions');
+      '${config.REST_URL_Prefix}/trackers/$trackerID/transitions');
   http.Response response = await http.get(uri, headers: httpHeader());
 
   if (response.statusCode == 200) {

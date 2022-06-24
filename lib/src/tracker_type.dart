@@ -8,7 +8,7 @@ Future<List<TrackerType>> fetchTrackerTypes(int trackerID) async {
   List<TrackerType> data = <TrackerType>[];
   Configuration config = Configuration();
   Uri uri = Uri.https(config.baseURLs['homeServer']!,
-      '/api/v3/trackers/types',{'outline': 'ANY'});
+      '${config.REST_URL_Prefix}/trackers/types', {'outline': 'ANY'});
   http.Response response = await http.get(uri, headers: httpHeader());
 
   if (response.statusCode == 200) {

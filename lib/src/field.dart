@@ -12,7 +12,8 @@ Future<List<Field>> fetchFields(int trackerID) async {
 
   http.Response response = await http.get(
       Uri.https(
-          config.baseURLs['homeServer']!, '/api/v3/trackers/$trackerID/fields'),
+          config.baseURLs['homeServer']!,
+          '${config.REST_URL_Prefix}/trackers/$trackerID/fields'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {
@@ -40,7 +41,7 @@ Future<FieldDetail> fetchFieldDetail(int trackerID, int fieldID) async {
 
   final response = await http.get(
       Uri.https(config.baseURLs['homeServer']!,
-          '/api/v3/trackers/$trackerID/fields/$fieldID'),
+          '${config.REST_URL_Prefix}/trackers/$trackerID/fields/$fieldID'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {

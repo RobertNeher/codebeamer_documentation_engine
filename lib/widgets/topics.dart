@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/job.dart';
 import 'package:flutter/material.dart';
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
 import 'package:codebeamer_documentation_engine/src/group.dart';
@@ -51,6 +52,19 @@ class LicenseTopic extends StatelessWidget {
             columnLabels: config.licenseHeadings, callback: () {}));
   }
 }
+
+class JobTopic extends StatelessWidget {
+  const JobTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Configuration config = Configuration();
+    return Expanded(
+        child: TableView<Job>(context,
+            columnLabels: config.jobsHeadings, callback: () {}));
+  }
+}
+
 
 class TrackerTopic extends StatelessWidget {
   const TrackerTopic({Key? key}) : super(key: key);

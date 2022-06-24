@@ -19,7 +19,7 @@ Future<List<WorkItem>> fetchWorkItems(int trackerID) async {
   var response = await http.get(
       Uri.https(
           config.baseURLs['homeServer'] as String,
-          '/api/v3/trackers/$trackerID/items',
+          '${config.REST_URL_Prefix}/trackers/$trackerID/items',
           {'page': '1', 'pageSize': maxPageSize.toString()}),
       headers: httpHeader());
 
@@ -34,7 +34,7 @@ Future<List<WorkItem>> fetchWorkItems(int trackerID) async {
     response = await http.get(
         Uri.https(
             config.baseURLs['homeServer'] as String,
-            '/api/v3/trackers/$trackerID/items',
+            '${config.REST_URL_Prefix}/trackers/$trackerID/items',
             {'page': pageNr.toString(), 'pageSize': maxPageSize.toString()}),
         headers: httpHeader());
 

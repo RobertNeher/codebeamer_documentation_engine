@@ -152,7 +152,7 @@ Future<List<Wiki>> fetchWikis(int project) async {
   try {
     Uri uri = Uri.https(
         config.baseURLs['homeServer']!,
-        '${config.URLPrefix}/projects/$project/wikipages',
+        '${config.REST_URL_Prefix}/projects/$project/wikipages',
         {'page': '1', 'pageSize': config.maxPageSize.toString()});
     response = await http.get(uri, headers: httpHeader());
 
@@ -170,7 +170,7 @@ Future<List<Wiki>> fetchWikis(int project) async {
     for (int page = 1; page <= maxPages; page++) {
       uri = Uri.https(
           config.baseURLs['homeServer']!,
-          '${config.URLPrefix}/projects/$project/wikipages',
+          '${config.REST_URL_Prefix}/projects/$project/wikipages',
           {'page': page.toString(), 'pageSize': config.maxPageSize.toString()});
       response = await http.get(uri, headers: httpHeader());
 

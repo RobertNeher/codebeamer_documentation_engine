@@ -17,7 +17,7 @@ Future<List<Baseline>> fetchBaselines(int trackerID) async {
   var response = await http.get(
       Uri.https(
           config.baseURLs['homeServer'] as String,
-          '/api/v3/trackers/$trackerID/baselines',
+          '${config.REST_URL_Prefix}/trackers/$trackerID/baselines',
           {'page': '1', 'pageSize': maxPageSize.toString()}),
       headers: httpHeader());
 
@@ -31,7 +31,7 @@ Future<List<Baseline>> fetchBaselines(int trackerID) async {
   for (int pageNr = 1; pageNr <= maxPages; pageNr++) {
     response = await http.get(
         Uri.https(config.baseURLs['homeServer'] as String,
-            '/api/v3/trackers/$trackerID/baselines', {
+            '${config.REST_URL_Prefix}/trackers/$trackerID/baselines', {
           'page': pageNr.toString(),
           'pageSize': config.maxPageSize.toString()
         }),

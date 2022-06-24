@@ -11,7 +11,7 @@ Future<Tracker> lookupTrackerName(String name) async {
   http.Response response;
 
   String docServer = config.baseURLs['documentationServer']!;
-  String path = '/api/v3/items/query';
+  String path = '${config.REST_URL_Prefix}/items/query';
 
   try {
     response = await http.get(
@@ -46,7 +46,7 @@ Future<List<Tracker>> fetchTrackers(int projectID) async {
 
   http.Response response = await http.get(
       Uri.https(config.baseURLs['homeServer']!,
-          '/api/v3/projects/$projectID/trackers'),
+          '${config.REST_URL_Prefix}/projects/$projectID/trackers'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {
@@ -69,7 +69,8 @@ Future<TrackerDetail> fetchTrackerDetail(int trackerID) async {
   Configuration config = Configuration();
 
   final response = await http.get(
-      Uri.https(config.baseURLs['homeServer']!, '/api/v3/trackers/$trackerID'),
+      Uri.https(config.baseURLs['homeServer']!,
+          '${config.REST_URL_Prefix}/trackers/$trackerID'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {
@@ -88,7 +89,7 @@ Future<int> fetchTrackerItemCount(int trackerID) async {
   final response = await http.get(
       Uri.https(
           config.baseURLs['homeServer'] as String,
-          '/api/v3/trackers/$trackerID/items',
+          '${config.REST_URL_Prefix}/trackers/$trackerID/items',
           {'page': '1', 'pageSize': "500"}),
       headers: httpHeader());
 
@@ -99,7 +100,6 @@ Future<int> fetchTrackerItemCount(int trackerID) async {
   } else {
     return -1;
   }
-  return 0;
 }
 
 class Tracker {

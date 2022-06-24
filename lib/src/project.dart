@@ -44,7 +44,8 @@ Future<List<Project>> fetchProjects() async {
   Configuration config = Configuration();
 
   http.Response response = await http.get(
-      Uri.https(config.baseURLs['homeServer']!, '/api/v3/projects'),
+      Uri.https(
+          config.baseURLs['homeServer']!, '${config.REST_URL_Prefix}/projects'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {
@@ -68,7 +69,8 @@ Future<ProjectDetail> fetchProjectDetail(int projectID) async {
   Configuration config = Configuration();
 
   final response = await http.get(
-      Uri.https(config.baseURLs['homeServer']!, '/api/v3/projects/$projectID'),
+      Uri.https(config.baseURLs['homeServer']!,
+          '${config.REST_URL_Prefix}/projects/$projectID'),
       headers: httpHeader());
 
   if (response.statusCode == 200) {
