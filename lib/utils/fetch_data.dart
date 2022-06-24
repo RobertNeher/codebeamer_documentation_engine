@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/document.dart';
 import 'package:codebeamer_documentation_engine/src/group.dart';
 import 'package:codebeamer_documentation_engine/src/home.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
@@ -47,6 +48,8 @@ Future<List<T>> fetchData<T>(var objectID) async {
     data = await fetchLicense() as List<T>;
   } else if (T == Job) {
     data = await fetchJobs() as List<T>;
+  } else if (T == Document) {
+    data = await fetchDocuments() as List<T>;
   }
   return data;
 }

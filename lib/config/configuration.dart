@@ -13,6 +13,7 @@ class Configuration {
   static const String _licenseInfoURL =
       '/sysadmin/configLicense.spr'; // root to REST
   static const String _jobsInfoURL = '/sysadmin/quartz/triggers.spr';
+  static const String _documentsInfoURL = '/sysadmin/documentsSummary.do';
 
   Configuration() {
     _fieldTypes.addAll({'Text': 0});
@@ -56,6 +57,16 @@ class Configuration {
   static final Map<String, double> _licenseHeadings = {
     'Tag': 30,
     'Content': 200,
+  };
+
+  static final Map<String, double> _documentHeadings = {
+    'Project': 100,
+    'Docs in use': 50,
+    'Docs in waste bin': 50,
+    'Folders in use': 50,
+    'Folders in waste bin': 50,
+    'Disk capacity (total)': 50,
+    'Disk capacity (recoverable': 50,
   };
 
   static final Map<String, double> _jobsHeadings = {
@@ -104,8 +115,14 @@ class Configuration {
     {
       'topic': 'Jobs',
       'icon': Icons.work_sharp,
-      'widget': const JobTopic(),
+      'widget': const JobsTopic(),
       'subTitle': 'Jobs on server "${_baseURLs['homeServer']}"'
+    },
+    {
+      'topic': 'Documents',
+      'icon': Icons.document_scanner_sharp,
+      'widget': const DocumentsTopic(),
+      'subTitle': 'Documents managed on server "${_baseURLs['homeServer']}"'
     },
     {
       'topic': 'Groups',
@@ -195,6 +212,10 @@ class Configuration {
     return _trackerHeadings;
   }
 
+  Map<String, double> get documentHeadings {
+    return _documentHeadings;
+  }
+
   Map<String, String> get baseURLs {
     return _baseURLs;
   }
@@ -237,6 +258,10 @@ class Configuration {
 
   String get jobsInfoURL {
     return _jobsInfoURL;
+  }
+
+  String get documentsInfoURL {
+    return _documentsInfoURL;
   }
 
   int get maxPageSize {
