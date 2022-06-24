@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/job.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:codebeamer_documentation_engine/widgets/BHC_bar.dart';
@@ -177,6 +178,16 @@ class TableViewState<T> extends State<TableView<T>> {
         License license = object as License;
         dataRow.add(DataCell(Text(license.tag)));
         dataRow.add(DataCell(Text(license.content)));
+      } else if (T == License) {
+        Job job = object as Job;
+        dataRow.add(DataCell(Text(job.schedulerName)));
+        dataRow.add(DataCell(Text(job.triggerID)));
+        dataRow.add(DataCell(Text(job.triggerType)));
+        dataRow.add(DataCell(Text(job.priority)));
+        dataRow.add(DataCell(Text(job.status)));
+        dataRow.add(DataCell(Text(job.scheduledStart)));
+        dataRow.add(DataCell(Text(job.lastStartAt)));
+        dataRow.add(DataCell(Text(job.nextStartAt)));
       } else if (T == Project) {
         Project project = object as Project;
         dataRow.add(DataCell(Text(project.id.toString())));

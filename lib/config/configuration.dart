@@ -10,8 +10,9 @@ class Configuration {
   // static String _REST_Password = '007';
   final Map<String, int> _fieldTypes = <String, int>{}; // codebeamer Data Types
   static const String _REST_URL_Prefix = '/api/v3/';
-  static final String _licenseInfoURL =
+  static const String _licenseInfoURL =
       '/sysadmin/configLicense.spr'; // root to REST
+  static const String _jobsInfoURL = '/sysadmin/quartz/triggers.spr';
 
   Configuration() {
     _fieldTypes.addAll({'Text': 0});
@@ -57,6 +58,17 @@ class Configuration {
     'Content': 200,
   };
 
+  static final Map<String, double> _jobsHeadings = {
+    'Scheduler Name': 100,
+    'Trigger ID': 100,
+    'Trigger Type': 100,
+    'Prriority': 40,
+    'Status': 75,
+    'Scheduled start at': 100,
+    'Last run at': 100,
+    'Next run at': 100
+  };
+
   static final Map<String, double> _groupHeadings = {
     'ID': 30,
     'Name': 200,
@@ -88,6 +100,12 @@ class Configuration {
       'icon': Icons.label_important_sharp,
       'widget': const LicenseTopic(),
       'subTitle': 'License details for server "${_baseURLs['homeServer']}"'
+    },
+    {
+      'topic': 'Jobs',
+      'icon': Icons.work_sharp,
+      'widget': const JobTopic(),
+      'subTitle': 'Jobs on server "${_baseURLs['homeServer']}"'
     },
     {
       'topic': 'Groups',
@@ -161,6 +179,10 @@ class Configuration {
     return _licenseHeadings;
   }
 
+  Map<String, double> get jobsHeadings {
+    return _jobsHeadings;
+  }
+
   Map<String, double> get groupHeadings {
     return _groupHeadings;
   }
@@ -211,6 +233,10 @@ class Configuration {
 
   String get licenseInfoURL {
     return _licenseInfoURL;
+  }
+
+  String get jobsInfoURL {
+    return _jobsInfoURL;
   }
 
   int get maxPageSize {
