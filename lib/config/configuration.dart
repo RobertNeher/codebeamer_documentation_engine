@@ -107,12 +107,14 @@ class Configuration {
     {
       'topic': 'Trackers',
       'icon': Icons.table_chart_sharp,
-      'widget': const Text('Trackers'),
+      'widget': const TrackerTopic(),
+      'subTitle': 'Trackers of project "#name#" (#id#)'
     },
     {
       'topic': 'Wikis',
       'icon': Icons.document_scanner_sharp,
       'widget': const Text('Wikis'),
+      'subTitle': 'Wikis of project "#name#" (#id#)'
     },
   ];
 
@@ -121,21 +123,25 @@ class Configuration {
       'topic': 'Work Items',
       'icon': Icons.table_chart_sharp,
       'widget': const Text('Work Itens'),
+      'subTitle': 'Work Items of tracker "#name#" (#id#)'
     },
     {
       'topic': 'Fields',
       'icon': Icons.input_sharp,
       'widget': const Text('Fields'),
+      'subTitle': 'Fields of tracker "#name#" (#id#)'
     },
     {
       'topic': 'Baselines',
       'icon': Icons.timeline_sharp,
       'widget': const Text('Baselines'),
+      'subTitle': 'Baselines of tracker "#name#" (#id#)'
     },
     {
       'topic': 'Transitions',
       'icon': Icons.traffic_sharp,
       'widget': const Text('Transitions'),
+      'subTitle': 'Transitions configured for tracker "#name#" (#id#)'
     },
   ];
 
