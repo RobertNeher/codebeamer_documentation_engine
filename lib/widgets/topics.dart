@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/document.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
 import 'package:flutter/material.dart';
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
@@ -20,7 +21,7 @@ class HomeTopic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 800,
+      height: MediaQuery.of(context).size.height - 150, // BHC_Bar!
       color: const Color.fromARGB(255, 209, 209, 209),
     );
   }
@@ -53,8 +54,8 @@ class LicenseTopic extends StatelessWidget {
   }
 }
 
-class JobTopic extends StatelessWidget {
-  const JobTopic({Key? key}) : super(key: key);
+class JobsTopic extends StatelessWidget {
+  const JobsTopic({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,17 @@ class JobTopic extends StatelessWidget {
   }
 }
 
+class DocumentsTopic extends StatelessWidget {
+  const DocumentsTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Configuration config = Configuration();
+    return Expanded(
+        child: TableView<Document>(context,
+            columnLabels: config.documentHeadings, callback: () {}));
+  }
+}
 
 class TrackerTopic extends StatelessWidget {
   const TrackerTopic({Key? key}) : super(key: key);

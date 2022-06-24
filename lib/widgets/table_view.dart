@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/document.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
@@ -188,6 +189,15 @@ class TableViewState<T> extends State<TableView<T>> {
         dataRow.add(DataCell(Text(job.scheduledStart)));
         dataRow.add(DataCell(Text(job.lastStartAt)));
         dataRow.add(DataCell(Text(job.nextStartAt)));
+      } else if (T == Document) {
+        Document document = object as Document;
+        dataRow.add(DataCell(Text(document.project)));
+        dataRow.add(DataCell(Text(document.docsInUse)));
+        dataRow.add(DataCell(Text(document.docsInWasteBin)));
+        dataRow.add(DataCell(Text(document.foldersInUse)));
+        dataRow.add(DataCell(Text(document.foldersInWasteBin)));
+        dataRow.add(DataCell(Text(document.diskCapacityUsage)));
+        dataRow.add(DataCell(Text(document.recoverableCapacity)));
       } else if (T == Project) {
         Project project = object as Project;
         dataRow.add(DataCell(Text(project.id.toString())));
