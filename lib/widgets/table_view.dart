@@ -1,13 +1,13 @@
-import 'package:codebeamer_documentation_engine/src/document.dart';
-import 'package:codebeamer_documentation_engine/src/job.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
+
+import 'package:codebeamer_documentation_engine/config/configuration.dart';
+
 import 'package:codebeamer_documentation_engine/widgets/BHC_bar.dart';
 import 'package:codebeamer_documentation_engine/widgets/powered_by.dart';
 import 'package:codebeamer_documentation_engine/widgets/show_data.dart';
 import 'package:codebeamer_documentation_engine/src/group.dart';
 import 'package:codebeamer_documentation_engine/src/license.dart';
-
 import 'package:codebeamer_documentation_engine/src/project.dart';
 import 'package:codebeamer_documentation_engine/src/tracker.dart';
 import 'package:codebeamer_documentation_engine/src/work_item.dart';
@@ -18,8 +18,9 @@ import 'package:codebeamer_documentation_engine/src/transition.dart';
 import 'package:codebeamer_documentation_engine/src/relation.dart';
 import 'package:codebeamer_documentation_engine/src/baseline.dart' as bl;
 import 'package:codebeamer_documentation_engine/src/option.dart';
-import 'package:codebeamer_documentation_engine/config/configuration.dart';
 import 'package:codebeamer_documentation_engine/src/home.dart';
+import 'package:codebeamer_documentation_engine/src/document.dart';
+import 'package:codebeamer_documentation_engine/src/job.dart';
 
 class TableView<T> extends StatefulWidget {
   final BuildContext context;
@@ -212,8 +213,8 @@ class TableViewState<T> extends State<TableView<T>> {
         Tracker tracker = object as Tracker;
         dataRow.add(DataCell(Text(tracker.id.toString())));
         dataRow.add(DataCell(Text(tracker.name)));
-        dataRow.add(DataCell(Text(tracker.itemCount.toString())));
         dataRow.add(DataCell(Text(tracker.description)));
+        dataRow.add(DataCell(Text(tracker.itemCount.toString())));
         dataRow.add(DataCell(Text(tracker.keyName)));
       } else if (T == WorkItem) {
         WorkItem workItem = object as WorkItem;
@@ -252,34 +253,40 @@ class TableViewState<T> extends State<TableView<T>> {
           cells: dataRow,
           onSelectChanged: (bool? value) {
             int selectedID = 0;
+            String itemName = '';
+
             T object = data[rowIndex];
 
             if (T == Home) {
               selectedID = 0;
             } else if (T == Project) {
               selectedID = (object as Project).id;
-              // Navigator.pop(context);
+              itemName = (object as Project).name;
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Scaffold(
                       appBar: BHCBar(),
                       body: ShowData(
                           topics: config.projectTopics,
+                          id: selectedID,
+                          name: (object as Project).name,
                           title:
-                              'Projects served on server "${config.baseURLs["homeServer"]}"',
+                              'Details of project "#name#" (#id#)',
                           T: Home),
                       bottomSheet: PoweredBy())));
             } else if (T == Wiki) {
               selectedID = 0;
             } else if (T == Tracker) {
               selectedID = (object as Tracker).id;
-              Navigator.pop(context);
+              itemName = (object as Tracker).name;
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Scaffold(
                       appBar: BHCBar(),
                       body: ShowData(
                           topics: config.trackerTopics,
+                          id: selectedID,
+                          name: (object as Tracker).name,
                           title:
-                              'Trackers of project "${(object as Tracker).name}" ($selectedID)',
+                              'Details of tracker "#name#" (#id#)',
                           T: Tracker),
                       bottomSheet: PoweredBy())));
             } else if (T == WorkItem) {
@@ -293,7 +300,7 @@ class TableViewState<T> extends State<TableView<T>> {
             } else if (T == bl.Baseline) {
               selectedID = 0;
             }
-            widget.callback(selectedID);
+            widget.callback(selectedID, itemName);
           }));
     }
     return tableRows;

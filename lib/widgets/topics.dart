@@ -1,18 +1,22 @@
+import 'package:flutter/material.dart';
+
+import 'package:codebeamer_documentation_engine/config/configuration.dart';
+import 'package:codebeamer_documentation_engine/widgets/table_view.dart';
+
 import 'package:codebeamer_documentation_engine/src/document.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
-import 'package:flutter/material.dart';
-import 'package:codebeamer_documentation_engine/config/configuration.dart';
+import 'package:codebeamer_documentation_engine/src/wiki.dart';
 import 'package:codebeamer_documentation_engine/src/group.dart';
 import 'package:codebeamer_documentation_engine/src/license.dart';
 import 'package:codebeamer_documentation_engine/src/project.dart';
 import 'package:codebeamer_documentation_engine/src/tracker.dart';
-import 'package:codebeamer_documentation_engine/widgets/table_view.dart';
 
 int id = 0;
+String name = '';
 
-void setID(int newID) {
+void setItem(newID, newName) {
   id = newID;
-  print(newID);
+  name = newName;
 }
 
 class HomeTopic extends StatelessWidget {
@@ -37,7 +41,7 @@ class ProjectTopic extends StatelessWidget {
         child: TableView<Project>(
       context,
       columnLabels: config.projectHeadings,
-      callback: setID,
+      callback: setItem,
     ));
   }
 }
@@ -84,12 +88,13 @@ class TrackerTopic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Configuration config = Configuration();
+    print('$id: $name');
     return Expanded(
         child: TableView<Tracker>(
       context,
       columnLabels: config.trackerHeadings,
       itemID: id,
-      callback: setID,
+      callback: setItem,
     ));
   }
 }
@@ -103,6 +108,20 @@ class GroupTopic extends StatelessWidget {
     return Expanded(
       child: TableView<Group>(context,
           columnLabels: config.groupHeadings, callback: () {}),
+    );
+  }
+}
+
+class WikiTopic extends StatelessWidget {
+  const WikiTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Configuration config = Configuration();
+
+    return Expanded(
+      child: TableView<Wiki>(context,
+          columnLabels: config.wikiHeadings, itemID: id, callback: () {}),
     );
   }
 }

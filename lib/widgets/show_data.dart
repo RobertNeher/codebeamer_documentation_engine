@@ -3,9 +3,16 @@ import 'package:codebeamer_documentation_engine/config/configuration.dart';
 
 class ShowData extends StatefulWidget {
   ShowData(
-      {Key? key, required this.topics, required this.title, required this.T})
+      {Key? key,
+      required this.topics,
+      required this.title,
+      required this.id,
+      required this.name,
+      required this.T})
       : super(key: key);
   String title;
+  int id;
+  String name;
   List<Map<String, Object>> topics;
   Type T;
 
@@ -15,22 +22,30 @@ class ShowData extends StatefulWidget {
 
 class _ShowDataState extends State<ShowData> {
   late Configuration _config;
-  late ValueNotifier<String> _selectedTopic;
+  late ValueNotifier<String> _selectedItem;
   String? _subTitle = '';
   int _index = 0;
+  // String _selectedItem = '';
 
   @override
   void initState() {
     _index = 0;
     _config = Configuration();
-    _selectedTopic = ValueNotifier<String>(widget.topics[0]['topic'] as String);
-    _subTitle = widget.title;
+    _subTitle = _processTitle(widget.title, widget.id, widget.name);
+    _selectedItem = ValueNotifier<String>(widget.topics[0]['topic'] as String);
     super.initState();
   }
 
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
+  }
+
+  String _processTitle(String titleWithPlaceholders, int id, String name) {
+    Configuration config = Configuration();
+    String title =
+        titleWithPlaceholders.replaceAll(config.placeholderID, id.toString());
+    return title.replaceAll(config.placeholderName, name);
   }
 
   @override
@@ -43,8 +58,9 @@ class _ShowDataState extends State<ShowData> {
             child: StatefulBuilder(
                 builder: ((BuildContext context, StateSetter setInnerState) {
               return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    const Spacer(),
                     Text(_subTitle!,
                         style: const TextStyle(
                           fontFamily: "Railway",
@@ -52,7 +68,7 @@ class _ShowDataState extends State<ShowData> {
                           fontSize: 20,
                           color: Colors.blueGrey,
                         )),
-                    // const SizedBox(width: 50),
+                    const Spacer(),
                     DropdownButton<String>(
                         onChanged: (String? newValue) {
                           _index = 0;
@@ -62,40 +78,43 @@ class _ShowDataState extends State<ShowData> {
                               break;
                             }
                           }
-                          _selectedTopic.value =
+                          _selectedItem.value =
                               widget.topics[_index - 1]["topic"] as String;
                           _subTitle =
                               widget.topics[_index - 1]["subTitle"] as String;
 
                           setInnerState(() {
-                            _selectedTopic.value = newValue!;
+                            _selectedItem.value = newValue!;
                           });
                         },
-                        dropdownColor: Colors.orangeAccent,
+                        dropdownColor: const Color.fromARGB(255, 253, 188, 103),
                         alignment: Alignment.topLeft,
                         elevation: 20,
-                        value: _selectedTopic.value,
-                        items: _config.homeTopics.map((topic) {
+                        value: _selectedItem.value,
+                        items: widget.topics.map((item) {
                           return DropdownMenuItem<String>(
-                              value: topic['topic'] as String,
+                              value: item['topic'] as String,
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(topic['icon'] as IconData, size: 20),
+                                  children: <Widget>[
+                                    Icon(
+                                      item['icon'] as IconData,
+                                      size: 30,
+                                    ),
                                     const SizedBox(width: 10),
-                                    Text(topic['topic'] as String,
+                                    Text(item['topic'] as String,
                                         style: const TextStyle(
                                             fontFamily: "Railway",
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18,
-                                            color: Colors.black))
+                                            color: Colors.black)),
                                   ]));
                         }).toList())
                   ]);
             })),
           ),
           ValueListenableBuilder<String>(
-              valueListenable: _selectedTopic,
+              valueListenable: _selectedItem,
               builder: (BuildContext context, String value, Widget? child) {
                 int index = 0;
                 for (Map<String, Object> topic in widget.topics) {
