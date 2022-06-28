@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget PoweredBy() {
   return Container(
-    color: const  Color.fromARGB(255, 204, 204, 204),
+      color: const Color.fromARGB(255, 177, 177, 177),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -13,7 +13,7 @@ Widget PoweredBy() {
               fontFamily: "Railway",
               fontWeight: FontWeight.bold,
               fontSize: 24,
-              color: Colors.grey),
+                  color: Colors.white),
         ),
         SizedBox(width: 10),
         FlutterLogo(size: 40)

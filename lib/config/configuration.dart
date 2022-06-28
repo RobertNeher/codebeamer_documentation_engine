@@ -14,27 +14,12 @@ class Configuration {
       '/sysadmin/configLicense.spr'; // root to REST
   static const String _jobsInfoURL = '/sysadmin/quartz/triggers.spr';
   static const String _documentsInfoURL = '/sysadmin/documentsSummary.do';
-
-  Configuration() {
-    _fieldTypes.addAll({'Text': 0});
-    _fieldTypes.addAll({'Integer': 1});
-    _fieldTypes.addAll({'Decimal': 2});
-    _fieldTypes.addAll({'Color': 4});
-    _fieldTypes.addAll({'Duration': 5});
-    _fieldTypes.addAll({'Bool': 6});
-    _fieldTypes.addAll({'Language': 7});
-    _fieldTypes.addAll({'Country': 8});
-    _fieldTypes.addAll({'WikiText': 9});
-    _fieldTypes.addAll({'Url': 10});
-    _fieldTypes.addAll({'Date': 11});
-    _fieldTypes.addAll({'Table': 1000});
-  }
-
   static const int _documentationProjectID = 7;
   static const int _associcationRole = 3;
   static const String _associcationName = 'child';
   static const int _maxPageSize = 500;
-
+  static const String _placeholderID = '#id#';
+  static const String _placeholderName = '#name#';
   static final String _aboutText =
       """This application retrieves all data avaiable which may be
   accessed through codebeamer's Swagger API
@@ -89,8 +74,13 @@ class Configuration {
     'ID': 30,
     'Name': 50,
     'Description': 200,
-    'work items\ncount': 50,
+    'Work items\ncount': 50,
     'Key': 50,
+  };
+
+  static final Map<String, double> _wikiHeadings = {
+    'ID': 30,
+    'Name': 200,
   };
 
   static final List<Map<String, Object>> _homeTopics = [
@@ -143,13 +133,13 @@ class Configuration {
       'topic': 'Trackers',
       'icon': Icons.table_chart_sharp,
       'widget': const TrackerTopic(),
-      'subTitle': 'Trackers of project "#name#" (#id#)'
+      'subTitle': 'Trackers of project "$_placeholderName" ($_placeholderID)'
     },
     {
       'topic': 'Wikis',
       'icon': Icons.document_scanner_sharp,
-      'widget': const Text('Wikis'),
-      'subTitle': 'Wikis of project "#name#" (#id#)'
+      'widget': const WikiTopic(),
+      'subTitle': 'Wikis of project "$_placeholderName" ($_placeholderID)'
     },
   ];
 
@@ -158,25 +148,26 @@ class Configuration {
       'topic': 'Work Items',
       'icon': Icons.table_chart_sharp,
       'widget': const Text('Work Itens'),
-      'subTitle': 'Work Items of tracker "#name#" (#id#)'
+      'subTitle': 'Work Items of tracker "$_placeholderName" ($_placeholderID)'
     },
     {
       'topic': 'Fields',
       'icon': Icons.input_sharp,
       'widget': const Text('Fields'),
-      'subTitle': 'Fields of tracker "#name#" (#id#)'
+      'subTitle': 'Fields of tracker "$_placeholderName" ($_placeholderID)'
     },
     {
       'topic': 'Baselines',
       'icon': Icons.timeline_sharp,
       'widget': const Text('Baselines'),
-      'subTitle': 'Baselines of tracker "#name#" (#id#)'
+      'subTitle': 'Baselines of tracker "$_placeholderName" ($_placeholderID)'
     },
     {
       'topic': 'Transitions',
       'icon': Icons.traffic_sharp,
       'widget': const Text('Transitions'),
-      'subTitle': 'Transitions configured for tracker "#name#" (#id#)'
+      'subTitle':
+          'Transitions configured for tracker "$_placeholderName" ($_placeholderID)'
     },
   ];
 
@@ -214,6 +205,10 @@ class Configuration {
 
   Map<String, double> get documentHeadings {
     return _documentHeadings;
+  }
+
+  Map<String, double> get wikiHeadings {
+    return _wikiHeadings;
   }
 
   Map<String, String> get baseURLs {
@@ -266,6 +261,14 @@ class Configuration {
 
   int get maxPageSize {
     return _maxPageSize;
+  }
+
+  String get placeholderID {
+    return _placeholderID;
+  }
+
+  String get placeholderName {
+    return _placeholderName;
   }
 
   List<Map<String, Object>> get homeTopics {
