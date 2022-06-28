@@ -69,7 +69,8 @@ class _ShowDataState extends State<ShowData> {
                           color: Colors.blueGrey,
                         )),
                     const Spacer(),
-                    DropdownButton<String>(
+                widget.topics.isNotEmpty
+                    ? DropdownButton<String>(
                         onChanged: (String? newValue) {
                           _index = 0;
                           for (Map<String, Object> topic in widget.topics) {
@@ -110,7 +111,8 @@ class _ShowDataState extends State<ShowData> {
                                             color: Colors.black)),
                                   ]));
                         }).toList())
-                  ]);
+                    : Container()
+              ]);
             })),
           ),
           ValueListenableBuilder<String>(
@@ -123,7 +125,10 @@ class _ShowDataState extends State<ShowData> {
                     break;
                   }
                 }
-                _subTitle = widget.topics[index - 1]['subTitle'] as String;
+            _subTitle = _processTitle(
+                widget.topics[index - 1]['subTitle'] as String,
+                widget.id,
+                widget.name);
                 return widget.topics[index - 1]['widget'] as Widget;
               }),
         ]);

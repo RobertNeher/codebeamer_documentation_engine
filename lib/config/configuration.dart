@@ -1,7 +1,13 @@
 import "dart:convert";
 import 'package:flutter/material.dart';
-import 'package:codebeamer_documentation_engine/widgets/about.dart';
-import 'package:codebeamer_documentation_engine/widgets/topics.dart';
+
+import 'package:codebeamer_documentation_engine/topics/document.dart';
+import 'package:codebeamer_documentation_engine/topics/group.dart';
+import 'package:codebeamer_documentation_engine/topics/job.dart';
+import 'package:codebeamer_documentation_engine/topics/license.dart';
+import 'package:codebeamer_documentation_engine/topics/home.dart';
+import 'package:codebeamer_documentation_engine/topics/home_level.dart';
+import 'package:codebeamer_documentation_engine/topics/about.dart';
 
 class Configuration {
   static String _REST_User = 'ROBNEH01';
@@ -58,7 +64,7 @@ class Configuration {
     'Scheduler Name': 100,
     'Trigger ID': 100,
     'Trigger Type': 100,
-    'Prriority': 40,
+    'Priority': 40,
     'Status': 75,
     'Scheduled start at': 100,
     'Last run at': 100,
@@ -70,11 +76,17 @@ class Configuration {
     'Name': 200,
   };
 
+  static final Map<String, double> _workItemHeadings = {
+    'ID': 30,
+    'Name': 200,
+    'Description': 400,
+  };
+
   static final Map<String, double> _trackerHeadings = {
     'ID': 30,
     'Name': 50,
     'Description': 200,
-    'Work items\ncount': 50,
+    'Work items count': 50,
     'Key': 50,
   };
 
@@ -138,7 +150,7 @@ class Configuration {
     {
       'topic': 'Wikis',
       'icon': Icons.document_scanner_sharp,
-      'widget': const WikiTopic(),
+      'widget': WikiTopic(),
       'subTitle': 'Wikis of project "$_placeholderName" ($_placeholderID)'
     },
   ];
@@ -147,7 +159,7 @@ class Configuration {
     {
       'topic': 'Work Items',
       'icon': Icons.table_chart_sharp,
-      'widget': const Text('Work Itens'),
+      'widget': const WorkItemTopic(),
       'subTitle': 'Work Items of tracker "$_placeholderName" ($_placeholderID)'
     },
     {
@@ -209,6 +221,10 @@ class Configuration {
 
   Map<String, double> get wikiHeadings {
     return _wikiHeadings;
+  }
+
+  Map<String, double> get workItemHeadings {
+    return _workItemHeadings;
   }
 
   Map<String, String> get baseURLs {

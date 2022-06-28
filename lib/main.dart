@@ -6,7 +6,7 @@ import 'package:codebeamer_documentation_engine/widgets/show_data.dart';
 import 'package:codebeamer_documentation_engine/widgets/BHC_bar.dart';
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
 import 'package:codebeamer_documentation_engine/widgets/powered_by.dart';
-import 'package:codebeamer_documentation_engine/widgets/topics.dart';
+import 'package:codebeamer_documentation_engine/topics/home_level.dart';
 
 void main() {
   runApp(const codebeamerDocumentationEngine());

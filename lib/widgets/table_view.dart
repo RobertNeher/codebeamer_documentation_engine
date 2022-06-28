@@ -180,7 +180,7 @@ class TableViewState<T> extends State<TableView<T>> {
         License license = object as License;
         dataRow.add(DataCell(Text(license.tag)));
         dataRow.add(DataCell(Text(license.content)));
-      } else if (T == License) {
+      } else if (T == Job) {
         Job job = object as Job;
         dataRow.add(DataCell(Text(job.schedulerName)));
         dataRow.add(DataCell(Text(job.triggerID)));
@@ -269,8 +269,7 @@ class TableViewState<T> extends State<TableView<T>> {
                           topics: config.projectTopics,
                           id: selectedID,
                           name: (object as Project).name,
-                          title:
-                              'Details of project "#name#" (#id#)',
+                          title: 'Details of project "#name#" (#id#)',
                           T: Home),
                       bottomSheet: PoweredBy())));
             } else if (T == Wiki) {
@@ -285,13 +284,25 @@ class TableViewState<T> extends State<TableView<T>> {
                           topics: config.trackerTopics,
                           id: selectedID,
                           name: (object as Tracker).name,
-                          title:
-                              'Details of tracker "#name#" (#id#)',
+                          title: 'Details of tracker "#name#" (#id#)',
                           T: Tracker),
                       bottomSheet: PoweredBy())));
             } else if (T == WorkItem) {
               selectedID = (object as WorkItem).id;
+              itemName = (object as WorkItem).name;
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Scaffold(
+                      appBar: BHCBar(),
+                      body: ShowData(
+                          topics: const <Map<String, Object>>[],
+                          id: selectedID,
+                          name: (object as WorkItem).name,
+                          title:
+                              'Details of work item "${config.placeholderName}" (${config.placeholderID})',
+                          T: WorkItem),
+                      bottomSheet: PoweredBy())));
             } else if (T == Schema) {
+              print('Schema');
               selectedID = (object as Field).id!;
             } else if (T == Option) {
               selectedID = 0;
