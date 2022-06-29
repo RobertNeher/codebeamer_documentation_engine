@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:codebeamer_documentation_engine/main.dart';
 
@@ -69,7 +71,7 @@ class BHCDialogBox extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context,'/');
+                      Navigator.pop;
                     },
                     child: Text(
                       buttonText,
