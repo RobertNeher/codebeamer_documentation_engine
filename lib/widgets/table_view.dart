@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/widgets/BHC_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 
@@ -346,10 +347,14 @@ class TableViewState<T> extends State<TableView<T>> {
                     break;
                   }
                 default:
-                  {}
-
+                  {
+                   BHCDialogBox(
+                      title: 'Field type',
+                      description: 'Field of type ${selectedField.type}',
+                      buttonText: 'OK',
+                  );
                   break;
-              }
+                }
             } else if (T == Schema) {
               selectedID = (object as Field).id!;
             } else if (T == Option) {
