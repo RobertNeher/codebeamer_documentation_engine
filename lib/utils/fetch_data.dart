@@ -1,4 +1,5 @@
 import 'package:codebeamer_documentation_engine/src/document.dart';
+import 'package:codebeamer_documentation_engine/src/field.dart' as fld;
 import 'package:codebeamer_documentation_engine/src/group.dart';
 import 'package:codebeamer_documentation_engine/src/home.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
@@ -40,6 +41,8 @@ Future<List<T>> fetchData<T>(var objectID) async {
     data = await fetchTransitions(objectID) as List<T>;
   } else if (T == bl.Baseline) {
     data = await bl.fetchBaselines(objectID) as List<T>;
+  } else if (T == fld.Field) {
+    data = await fld.fetchFields(objectID) as List<T>;
   } else if (T == Group) {
     data = await fetchGroups() as List<T>;
   } else if (T == User) {

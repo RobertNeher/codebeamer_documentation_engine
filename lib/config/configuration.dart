@@ -80,6 +80,12 @@ class Configuration {
     'ID': 30,
     'Name': 200,
     'Description': 400,
+    'Relation': 30,
+  };
+
+  static final Map<String, double> _optionHeadings = {
+    'ID': 30,
+    'Name': 200,
   };
 
   static final Map<String, double> _trackerHeadings = {
@@ -88,6 +94,16 @@ class Configuration {
     'Description': 200,
     'Work items count': 50,
     'Key': 50,
+  };
+
+  static final Map<String, double> _fieldHeadings = {
+    'ID': 30,
+    'Name': 50,
+    'Type': 100,
+    'Description': 200,
+    'Value Model': 100,
+    'Title': 100,
+    'Tracker Item Field': 50,
   };
 
   static final Map<String, double> _wikiHeadings = {
@@ -164,8 +180,8 @@ class Configuration {
     },
     {
       'topic': 'Fields',
-      'icon': Icons.input_sharp,
-      'widget': const Text('Fields'),
+      'icon': Icons.schema_sharp,
+      'widget': const FieldTopic(),
       'subTitle': 'Fields of tracker "$_placeholderName" ($_placeholderID)'
     },
     {
@@ -180,6 +196,15 @@ class Configuration {
       'widget': const Text('Transitions'),
       'subTitle':
           'Transitions configured for tracker "$_placeholderName" ($_placeholderID)'
+    }
+  ];
+
+  static final List<Map<String, Object>> _workItemTopics = [
+    {
+      'topic': 'Children',
+      'icon': Icons.child_care_sharp,
+      'widget': const ChildrenTopic(),
+      'subTitle': 'Children of work item "$_placeholderName" ($_placeholderID)'
     },
   ];
 
@@ -225,6 +250,14 @@ class Configuration {
 
   Map<String, double> get workItemHeadings {
     return _workItemHeadings;
+  }
+
+  Map<String, double> get fieldHeadings {
+    return _fieldHeadings;
+  }
+
+  Map<String, double> get optionHeadings {
+    return _optionHeadings;
   }
 
   Map<String, String> get baseURLs {
@@ -297,6 +330,10 @@ class Configuration {
 
   List<Map<String, Object>> get trackerTopics {
     return _trackerTopics;
+  }
+
+  List<Map<String, Object>> get workItemTopics {
+    return _workItemTopics;
   }
 
   String getAuthToken([String type = "Basic"]) {

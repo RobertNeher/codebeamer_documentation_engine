@@ -6,6 +6,7 @@ import 'package:codebeamer_documentation_engine/config/configuration.dart';
 import 'package:codebeamer_documentation_engine/widgets/BHC_bar.dart';
 import 'package:codebeamer_documentation_engine/widgets/powered_by.dart';
 import 'package:codebeamer_documentation_engine/widgets/show_data.dart';
+
 import 'package:codebeamer_documentation_engine/src/group.dart';
 import 'package:codebeamer_documentation_engine/src/license.dart';
 import 'package:codebeamer_documentation_engine/src/project.dart';
@@ -21,6 +22,7 @@ import 'package:codebeamer_documentation_engine/src/option.dart';
 import 'package:codebeamer_documentation_engine/src/home.dart';
 import 'package:codebeamer_documentation_engine/src/document.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
+import 'package:codebeamer_documentation_engine/src/field.dart' as fld;
 
 class TableView<T> extends StatefulWidget {
   final BuildContext context;
@@ -131,15 +133,16 @@ class TableViewState<T> extends State<TableView<T>> {
           ]);
   }
 
-  List<DataColumn> _getHeadings(Map<String, double> headers) {
-    List<DataColumn> headerRow = <DataColumn>[];
+  List<DataColumn2> _getHeadings(Map<String, double> headers) {
+    List<DataColumn2> headerRow = <DataColumn2>[];
 
     if (headers.isEmpty) {
-      return <DataColumn>[];
+      return <DataColumn2>[];
     }
 
     headers.forEach((key, value) {
-      headerRow.add(DataColumn(
+      headerRow.add(DataColumn2(
+        size: _calculateWidth(value),
         label: Container(
           width: value,
           child: ConstrainedBox(
@@ -158,6 +161,18 @@ class TableViewState<T> extends State<TableView<T>> {
       ));
     });
     return headerRow; //
+  }
+
+  ColumnSize _calculateWidth(double width) {
+    if (width > 100) {
+      return ColumnSize.L;
+    } else if (width > 30 && width <= 100) {
+      return ColumnSize.M;
+    } else if (width <= 30) {
+      return ColumnSize.S;
+    } else {
+      return ColumnSize.M;
+    }
   }
 
   List<DataRow2> _getRows(List<T> data, int cols) {
@@ -225,6 +240,15 @@ class TableViewState<T> extends State<TableView<T>> {
           workItem.hasRelation = value.isNotEmpty;
         });
         dataRow.add(DataCell(Text(workItem.hasRelation ? 'Yo' : 'Nope')));
+      } else if (T == fld.Field) {
+        fld.Field field = object as fld.Field;
+        dataRow.add(DataCell(Text(field.id.toString())));
+        dataRow.add(DataCell(Text(field.name)));
+        dataRow.add(DataCell(Text(field.type)));
+        dataRow.add(DataCell(Text(field.description)));
+        dataRow.add(DataCell(Text(field.valueModel)));
+        dataRow.add(DataCell(Text(field.title)));
+        dataRow.add(DataCell(Text(field.trackerItemField)));
       } else if (T == Schema) {
         Schema field = object as Schema;
         dataRow.add(DataCell(Text(field.id.toString())));
@@ -269,7 +293,8 @@ class TableViewState<T> extends State<TableView<T>> {
                           topics: config.projectTopics,
                           id: selectedID,
                           name: (object as Project).name,
-                          title: 'Details of project "#name#" (#id#)',
+                          title:
+                              'Details of project "${config.placeholderName}" (${config.placeholderID})',
                           T: Home),
                       bottomSheet: PoweredBy())));
             } else if (T == Wiki) {
@@ -284,7 +309,8 @@ class TableViewState<T> extends State<TableView<T>> {
                           topics: config.trackerTopics,
                           id: selectedID,
                           name: (object as Tracker).name,
-                          title: 'Details of tracker "#name#" (#id#)',
+                          title:
+                              'Details of tracker "${config.placeholderName}" (${config.placeholderID})',
                           T: Tracker),
                       bottomSheet: PoweredBy())));
             } else if (T == WorkItem) {
@@ -294,15 +320,37 @@ class TableViewState<T> extends State<TableView<T>> {
                   builder: (context) => Scaffold(
                       appBar: BHCBar(),
                       body: ShowData(
-                          topics: const <Map<String, Object>>[],
+                          topics: config.workItemTopics,
                           id: selectedID,
                           name: (object as WorkItem).name,
                           title:
                               'Details of work item "${config.placeholderName}" (${config.placeholderID})',
                           T: WorkItem),
                       bottomSheet: PoweredBy())));
+            } else if (T == fld.Field) {
+              fld.Field selectedField = (object as fld.Field);
+
+              switch (selectedField.type) {
+                case 'OptionChoice':
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => ShowData(
+                                topics: const <Map<String, Object>>[],
+                                title:
+                                    'Options of field "${config.placeholderName}" (${config.placeholderID})',
+                                id: selectedField.id,
+                                name: selectedField.name,
+                                T: fld.Field)));
+                    break;
+                  }
+                default:
+                  {}
+
+                  break;
+              }
             } else if (T == Schema) {
-              print('Schema');
               selectedID = (object as Field).id!;
             } else if (T == Option) {
               selectedID = 0;

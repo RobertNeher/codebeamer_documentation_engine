@@ -9,10 +9,10 @@ Future<List<Field>> fetchFields(int trackerID) async {
   FieldDetail fd;
   List<Field> fields;
   Configuration config = Configuration();
-
+  //TODO Remove print
+  print("Tracker: $trackerID");
   http.Response response = await http.get(
-      Uri.https(
-          config.baseURLs['homeServer']!,
+      Uri.https(config.baseURLs['homeServer']!,
           '${config.REST_URL_Prefix}/trackers/$trackerID/fields'),
       headers: httpHeader());
 
