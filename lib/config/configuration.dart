@@ -116,6 +116,11 @@ class Configuration {
     'Name': 200,
   };
 
+  static final Map<String, double> _trackerTypeHeadings = {
+    'ID': 30,
+    'Name': 200,
+  };
+
   static final Map<String, double> _transitionHeadings = {
     'ID': 30,
     'Name': 150,
@@ -208,7 +213,14 @@ class Configuration {
       'widget': const TransitionTopic(),
       'subTitle':
           'Transitions configured for tracker "$_placeholderName" ($_placeholderID)'
-    }
+    },
+    {
+      'topic': 'Types',
+      'icon': Icons.type_specimen_sharp,
+      'widget': const TrackerTypeTopic(),
+      'subTitle':
+          'Tracker types of tracker "$_placeholderName" ($_placeholderID)'
+    },
   ];
 
   static final List<Map<String, Object>> _workItemTopics = [
@@ -289,6 +301,9 @@ class Configuration {
     return _transitionHeadings;
   }
 
+  Map<String, double> get trackerTypeHeadings {
+    return _trackerTypeHeadings;
+  }
 
   Map<String, String> get baseURLs {
     return _baseURLs;

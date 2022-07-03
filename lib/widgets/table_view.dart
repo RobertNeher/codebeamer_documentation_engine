@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/tracker_type.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 
@@ -266,6 +267,10 @@ class TableViewState<T> extends State<TableView<T>> {
         dataRow.add(DataCell(Text(transition.name!)));
         dataRow.add(DataCell(Text(transition.fromStatus!.name!)));
         dataRow.add(DataCell(Text(transition.toStatus!.name!)));
+      } else if (T == TrackerType) {
+        TrackerType trackerType = object as TrackerType;
+        dataRow.add(DataCell(Text(trackerType.id.toString())));
+        dataRow.add(DataCell(Text(trackerType.name!)));
       } else if (T == bl.Baseline) {
         bl.Baseline baseline = object as bl.Baseline;
         dataRow.add(DataCell(Text(baseline.id.toString())));

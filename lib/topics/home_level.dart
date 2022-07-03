@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/tracker_type.dart';
 import 'package:flutter/material.dart';
 
 import 'package:codebeamer_documentation_engine/src/field.dart' as fld;
@@ -124,6 +125,20 @@ class TransitionTopic extends StatelessWidget {
     return Expanded(
         child: TableView<Transition>(context,
             columnLabels: config.transitionHeadings,
+            itemID: id,
+            callback: () {}));
+  }
+}
+
+class TrackerTypeTopic extends StatelessWidget {
+  const TrackerTypeTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Configuration config = Configuration();
+    return Expanded(
+        child: TableView<TrackerType>(context,
+            columnLabels: config.trackerTypeHeadings,
             itemID: id,
             callback: () {}));
   }
