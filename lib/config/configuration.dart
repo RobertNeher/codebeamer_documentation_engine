@@ -15,7 +15,7 @@ class Configuration {
   // static String _REST_User = 'bond';
   // static String _REST_Password = '007';
   final Map<String, int> _fieldTypes = <String, int>{}; // codebeamer Data Types
-  static const String _REST_URL_Prefix = '/api/v3/';
+  static const String _REST_URL_Prefix = '/api/v3';
   static const String _licenseInfoURL =
       '/sysadmin/configLicense.spr'; // root to REST
   static const String _jobsInfoURL = '/sysadmin/quartz/triggers.spr';
@@ -111,6 +111,18 @@ class Configuration {
     'Name': 200,
   };
 
+  static final Map<String, double> _baselineHeadings = {
+    'ID': 30,
+    'Name': 200,
+  };
+
+  static final Map<String, double> _transitionHeadings = {
+    'ID': 30,
+    'Name': 150,
+    'From status': 100,
+    'To status': 100,
+  };
+
   static final List<Map<String, Object>> _homeTopics = [
     {
       'topic': 'Home',
@@ -173,27 +185,27 @@ class Configuration {
 
   static final List<Map<String, Object>> _trackerTopics = [
     {
-      'topic': 'Work Items',
-      'icon': Icons.table_chart_sharp,
-      'widget': const WorkItemTopic(),
-      'subTitle': 'Work Items of tracker "$_placeholderName" ($_placeholderID)'
-    },
-    {
       'topic': 'Fields',
       'icon': Icons.schema_sharp,
       'widget': const FieldTopic(),
       'subTitle': 'Fields of tracker "$_placeholderName" ($_placeholderID)'
     },
     {
+      'topic': 'Work Items',
+      'icon': Icons.table_chart_sharp,
+      'widget': const WorkItemTopic(),
+      'subTitle': 'Work Items of tracker "$_placeholderName" ($_placeholderID)'
+    },
+    {
       'topic': 'Baselines',
       'icon': Icons.timeline_sharp,
-      'widget': const Text('Baselines'),
+      'widget': const BaselineTopic(),
       'subTitle': 'Baselines of tracker "$_placeholderName" ($_placeholderID)'
     },
     {
       'topic': 'Transitions',
       'icon': Icons.traffic_sharp,
-      'widget': const Text('Transitions'),
+      'widget': const TransitionTopic(),
       'subTitle':
           'Transitions configured for tracker "$_placeholderName" ($_placeholderID)'
     }
@@ -205,6 +217,15 @@ class Configuration {
       'icon': Icons.child_care_sharp,
       'widget': const ChildrenTopic(),
       'subTitle': 'Children of work item "$_placeholderName" ($_placeholderID)'
+    },
+  ];
+
+  static final List<Map<String, Object>> _optionTopics = [
+    {
+      'topic': 'Options',
+      'icon': Icons.select_all_sharp,
+      'widget': const OptionTopic(),
+      'subTitle': 'Options of field "$_placeholderName" ($_placeholderID)"'
     },
   ];
 
@@ -259,6 +280,15 @@ class Configuration {
   Map<String, double> get optionHeadings {
     return _optionHeadings;
   }
+
+  Map<String, double> get baselineHeadings {
+    return _baselineHeadings;
+  }
+
+  Map<String, double> get transitionHeadings {
+    return _transitionHeadings;
+  }
+
 
   Map<String, String> get baseURLs {
     return _baseURLs;
@@ -334,6 +364,10 @@ class Configuration {
 
   List<Map<String, Object>> get workItemTopics {
     return _workItemTopics;
+  }
+
+  List<Map<String, Object>> get optionTopics {
+    return _optionTopics;
   }
 
   String getAuthToken([String type = "Basic"]) {

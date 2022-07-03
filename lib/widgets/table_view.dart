@@ -1,10 +1,10 @@
-import 'package:codebeamer_documentation_engine/widgets/BHC_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
 
 import 'package:codebeamer_documentation_engine/widgets/BHC_bar.dart';
+import 'package:codebeamer_documentation_engine/widgets/BHC_dialog.dart';
 import 'package:codebeamer_documentation_engine/widgets/powered_by.dart';
 import 'package:codebeamer_documentation_engine/widgets/show_data.dart';
 
@@ -28,7 +28,6 @@ import 'package:codebeamer_documentation_engine/src/field.dart' as fld;
 class TableView<T> extends StatefulWidget {
   final BuildContext context;
   int? itemID;
-  final Schema? field;
   late Map<String, double>? columnLabels = {};
   final Function callback;
 
@@ -36,7 +35,6 @@ class TableView<T> extends StatefulWidget {
       {Key? key,
       this.columnLabels,
       this.itemID,
-      this.field,
       required this.callback})
       : super(key: key);
 
@@ -250,14 +248,14 @@ class TableViewState<T> extends State<TableView<T>> {
         dataRow.add(DataCell(Text(field.valueModel)));
         dataRow.add(DataCell(Text(field.title)));
         dataRow.add(DataCell(Text(field.trackerItemField)));
-      } else if (T == Schema) {
-        Schema field = object as Schema;
-        dataRow.add(DataCell(Text(field.id.toString())));
-        dataRow.add(DataCell(Text(field.name!)));
-        dataRow.add(DataCell(Text(field.type!)));
-        dataRow.add(DataCell(Text(field.valueModel!)));
-        dataRow.add(DataCell(Text(field.trackerItemField!)));
-        dataRow.add(DataCell(Text(field.title!)));
+        // } else if (T == Schema) {
+        //   Schema field = object as Schema;
+        //   dataRow.add(DataCell(Text(field.id.toString())));
+        //   dataRow.add(DataCell(Text(field.name!)));
+        //   dataRow.add(DataCell(Text(field.type!)));
+        //   dataRow.add(DataCell(Text(field.valueModel!)));
+        //   dataRow.add(DataCell(Text(field.trackerItemField!)));
+        //   dataRow.add(DataCell(Text(field.title!)));
       } else if (T == Option) {
         Option option = object as Option;
         dataRow.add(DataCell(Text(option.id.toString())));
@@ -266,7 +264,6 @@ class TableViewState<T> extends State<TableView<T>> {
         Transition transition = object as Transition;
         dataRow.add(DataCell(Text(transition.id.toString())));
         dataRow.add(DataCell(Text(transition.name!)));
-        // dataRow.add(DataCell(Text(transition.description!)));
         dataRow.add(DataCell(Text(transition.fromStatus!.name!)));
         dataRow.add(DataCell(Text(transition.toStatus!.name!)));
       } else if (T == bl.Baseline) {
@@ -286,7 +283,6 @@ class TableViewState<T> extends State<TableView<T>> {
               selectedID = 0;
             } else if (T == Project) {
               selectedID = (object as Project).id;
-              itemName = (object as Project).name;
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Scaffold(
                       appBar: BHCBar(),
@@ -302,7 +298,6 @@ class TableViewState<T> extends State<TableView<T>> {
               selectedID = 0;
             } else if (T == Tracker) {
               selectedID = (object as Tracker).id;
-              itemName = (object as Tracker).name;
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Scaffold(
                       appBar: BHCBar(),
@@ -316,7 +311,6 @@ class TableViewState<T> extends State<TableView<T>> {
                       bottomSheet: PoweredBy())));
             } else if (T == WorkItem) {
               selectedID = (object as WorkItem).id;
-              itemName = (object as WorkItem).name;
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Scaffold(
                       appBar: BHCBar(),
@@ -334,29 +328,37 @@ class TableViewState<T> extends State<TableView<T>> {
               switch (selectedField.type) {
                 case 'OptionChoice':
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => ShowData(
-                                topics: const <Map<String, Object>>[],
+                    selectedID = (object as fld.Field).trackerID * 100 +
+                        (object as fld.Field).id;
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                            appBar: BHCBar(),
+                            body: ShowData(
+                                topics: config.optionTopics,
+                                id: selectedID ~/ 100,
+                                name: (object as fld.Field).name,
                                 title:
                                     'Options of field "${config.placeholderName}" (${config.placeholderID})',
-                                id: selectedField.id,
-                                name: selectedField.name,
-                                T: fld.Field)));
+                                T: Option),
+                            bottomSheet: PoweredBy())));
                     break;
                   }
                 default:
                   {
-                   BHCDialogBox(
-                      title: 'Field type',
-                      description: 'Field of type ${selectedField.type}',
-                      buttonText: 'OK',
-                  );
-                  break;
-                }
-            } else if (T == Schema) {
-              selectedID = (object as Field).id!;
+                    showDialog(
+                        context: context,
+                        builder: (context) => BHCDialogBox(
+                              title: 'Field type',
+                              description:
+                                  'Field of type ${selectedField.type}',
+                              buttonText: 'OK',
+                            ));
+                    break;
+                  }
+              }
+              // } else if (T == Schema) {
+              //   selectedID = (object as Schema).id!;
             } else if (T == Option) {
               selectedID = 0;
             } else if (T == Transition) {

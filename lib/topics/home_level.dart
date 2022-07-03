@@ -1,7 +1,10 @@
-import 'package:codebeamer_documentation_engine/src/field.dart';
+import 'package:flutter/material.dart';
+
+import 'package:codebeamer_documentation_engine/src/field.dart' as fld;
+import 'package:codebeamer_documentation_engine/src/option.dart';
+import 'package:codebeamer_documentation_engine/src/transition.dart';
 import 'package:codebeamer_documentation_engine/src/wiki.dart';
 import 'package:codebeamer_documentation_engine/src/work_item.dart';
-import 'package:flutter/material.dart';
 
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
 import 'package:codebeamer_documentation_engine/widgets/table_view.dart';
@@ -81,11 +84,50 @@ class FieldTopic extends StatelessWidget {
   Widget build(BuildContext context) {
     Configuration config = Configuration();
     return Expanded(
-        child: TableView<Field>(context,
+        child: TableView<fld.Field>(context,
             columnLabels: config.fieldHeadings, itemID: id, callback: setItem));
   }
 }
 
+class OptionTopic extends StatelessWidget {
+  const OptionTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Configuration config = Configuration();
+    return Expanded(
+        child: TableView<Option>(context,
+            columnLabels: config.optionHeadings, itemID: id, callback: () {}));
+  }
+}
+
+class BaselineTopic extends StatelessWidget {
+  const BaselineTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Configuration config = Configuration();
+    return Expanded(
+        child: TableView<Baseline>(context,
+            columnLabels: config.baselineHeadings,
+            itemID: id,
+            callback: () {}));
+  }
+}
+
+class TransitionTopic extends StatelessWidget {
+  const TransitionTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Configuration config = Configuration();
+    return Expanded(
+        child: TableView<Transition>(context,
+            columnLabels: config.transitionHeadings,
+            itemID: id,
+            callback: () {}));
+  }
+}
 // TODO: Not complete, needs some concept
 class ChildrenTopic extends StatelessWidget {
   const ChildrenTopic({Key? key}) : super(key: key);
@@ -94,7 +136,7 @@ class ChildrenTopic extends StatelessWidget {
   Widget build(BuildContext context) {
     Configuration config = Configuration();
     return Expanded(
-        child: TableView<Field>(context,
+        child: TableView<fld.Field>(context,
             columnLabels: config.fieldHeadings, itemID: id, callback: setItem));
   }
 }

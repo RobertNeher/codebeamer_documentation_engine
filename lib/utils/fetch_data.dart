@@ -31,8 +31,8 @@ Future<List<T>> fetchData<T>(var objectID) async {
     data = await fetchTrackerTypes(objectID) as List<T>;
   } else if (T == WorkItem) {
     data = await fetchWorkItems(objectID) as List<T>;
-  } else if (T == Schema) {
-    data = await fetchSchema(objectID) as List<T>;
+    // } else if (T == Schema) {
+    //   data = await fetchSchema(objectID) as List<T>;
   } else if (T == Option) {
     data = fetchOptions(objectID) as List<T>;
   } else if (T == Relation) {
