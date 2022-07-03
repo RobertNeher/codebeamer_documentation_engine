@@ -12,7 +12,6 @@ import 'package:codebeamer_documentation_engine/src/transition.dart';
 import 'package:codebeamer_documentation_engine/src/user.dart';
 import 'package:codebeamer_documentation_engine/src/work_item.dart';
 import 'package:codebeamer_documentation_engine/src/schema.dart';
-import 'package:codebeamer_documentation_engine/src/option.dart';
 import 'package:codebeamer_documentation_engine/src/wiki.dart';
 import 'package:codebeamer_documentation_engine/src/baseline.dart' as bl;
 
@@ -31,10 +30,10 @@ Future<List<T>> fetchData<T>(var objectID) async {
     data = await fetchTrackerTypes(objectID) as List<T>;
   } else if (T == WorkItem) {
     data = await fetchWorkItems(objectID) as List<T>;
-    // } else if (T == Schema) {
-    //   data = await fetchSchema(objectID) as List<T>;
-  } else if (T == Option) {
-    data = fetchOptions(objectID) as List<T>;
+  } else if (T == Schema) {
+    data = await fetchSchema(objectID) as List<T>;
+    // } else if (T == Option) {
+    //   data = fetchOptions(objectID) as List<T>;
   } else if (T == Relation) {
     data = await fetchRelations(objectID) as List<T>;
   } else if (T == Transition) {
@@ -43,6 +42,8 @@ Future<List<T>> fetchData<T>(var objectID) async {
     data = await bl.fetchBaselines(objectID) as List<T>;
   } else if (T == fld.Field) {
     data = await fld.fetchFields(objectID) as List<T>;
+  } else if (T == Schema) {
+    data = await fetchSchema(objectID) as List<T>;
   } else if (T == Group) {
     data = await fetchGroups() as List<T>;
   } else if (T == User) {

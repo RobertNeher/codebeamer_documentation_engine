@@ -33,10 +33,7 @@ class TableView<T> extends StatefulWidget {
   final Function callback;
 
   TableView(this.context,
-      {Key? key,
-      this.columnLabels,
-      this.itemID,
-      required this.callback})
+      {Key? key, this.columnLabels, this.itemID, required this.callback})
       : super(key: key);
 
   @override
@@ -249,14 +246,14 @@ class TableViewState<T> extends State<TableView<T>> {
         dataRow.add(DataCell(Text(field.valueModel)));
         dataRow.add(DataCell(Text(field.title)));
         dataRow.add(DataCell(Text(field.trackerItemField)));
-        // } else if (T == Schema) {
-        //   Schema field = object as Schema;
-        //   dataRow.add(DataCell(Text(field.id.toString())));
-        //   dataRow.add(DataCell(Text(field.name!)));
-        //   dataRow.add(DataCell(Text(field.type!)));
-        //   dataRow.add(DataCell(Text(field.valueModel!)));
-        //   dataRow.add(DataCell(Text(field.trackerItemField!)));
-        //   dataRow.add(DataCell(Text(field.title!)));
+      } else if (T == Schema) {
+        Schema field = object as Schema;
+        dataRow.add(DataCell(Text(field.id.toString())));
+        dataRow.add(DataCell(Text(field.name!)));
+        dataRow.add(DataCell(Text(field.type!)));
+        dataRow.add(DataCell(Text(field.valueModel!)));
+        dataRow.add(DataCell(Text(field.trackerItemField!)));
+        dataRow.add(DataCell(Text(field.title!)));
       } else if (T == Option) {
         Option option = object as Option;
         dataRow.add(DataCell(Text(option.id.toString())));
@@ -327,22 +324,24 @@ class TableViewState<T> extends State<TableView<T>> {
                               'Details of work item "${config.placeholderName}" (${config.placeholderID})',
                           T: WorkItem),
                       bottomSheet: PoweredBy())));
-            } else if (T == fld.Field) {
-              fld.Field selectedField = (object as fld.Field);
+              // } else if (T == fld.Field) {
+              //   fld.Field selectedField = (object as fld.Field);
+            } else if (T == Schema) {
+              Schema selectedField = (object as Schema);
 
               switch (selectedField.type) {
                 case 'OptionChoice':
                   {
-                    selectedID = (object as fld.Field).trackerID * 100 +
-                        (object as fld.Field).id;
+                    selectedID = (object as Schema).id!;
 
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Scaffold(
                             appBar: BHCBar(),
                             body: ShowData(
                                 topics: config.optionTopics,
-                                id: selectedID ~/ 100,
-                                name: (object as fld.Field).name,
+                                id: selectedID,
+                                name: (object as Schema).name!,
+                                optionField: (object as Schema),
                                 title:
                                     'Options of field "${config.placeholderName}" (${config.placeholderID})',
                                 T: Option),

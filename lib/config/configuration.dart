@@ -106,6 +106,15 @@ class Configuration {
     'Tracker Item Field': 50,
   };
 
+  static final Map<String, double> _schemaHeadings = {
+    'ID': 30,
+    'Name': 50,
+    'Type': 100,
+    'Value Model': 100,
+    'Tracker Item Field': 50,
+    'Title': 100,
+  };
+
   static final Map<String, double> _wikiHeadings = {
     'ID': 30,
     'Name': 200,
@@ -303,6 +312,10 @@ class Configuration {
 
   Map<String, double> get trackerTypeHeadings {
     return _trackerTypeHeadings;
+  }
+
+  Map<String, double> get schemaHeadings {
+    return _schemaHeadings;
   }
 
   Map<String, String> get baseURLs {

@@ -9,6 +9,8 @@ Future<List<Schema>> fetchSchema(int trackerID, [int? fieldID]) async {
   List<Schema> schemata;
   Configuration config = Configuration();
 
+  // TODO: Remove print
+  print(trackerID);
   http.Response response = await http.get(
       Uri.https(
           config.baseURLs['homeServer']!,

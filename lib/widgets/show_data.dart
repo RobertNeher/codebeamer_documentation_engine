@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
+
+import 'package:codebeamer_documentation_engine/src/schema.dart';
 
 class ShowData extends StatefulWidget {
   ShowData(
@@ -8,11 +11,13 @@ class ShowData extends StatefulWidget {
       required this.title,
       required this.id,
       required this.name,
+      this.optionField,
       required this.T})
       : super(key: key);
   String title;
   int id;
   String name;
+  Schema? optionField;
   List<Map<String, Object>> topics;
   Type T;
 
@@ -25,13 +30,12 @@ class _ShowDataState extends State<ShowData> {
   late ValueNotifier<String> _selectedItem;
   String? _subTitle = '';
   int _index = 0;
-  // String _selectedItem = '';
 
   @override
   void initState() {
     _index = 0;
     _config = Configuration();
-    _subTitle = _processTitle(widget.title, widget.id, widget.name);
+    _subTitle = _processTitle(widget.title, widget.id, widget.name, _config);
     _selectedItem = ValueNotifier<String>(widget.topics[0]['topic'] as String);
     super.initState();
   }
@@ -41,8 +45,8 @@ class _ShowDataState extends State<ShowData> {
     super.setState(fn);
   }
 
-  String _processTitle(String titleWithPlaceholders, int id, String name) {
-    Configuration config = Configuration();
+  String _processTitle(
+      String titleWithPlaceholders, int id, String name, Configuration config) {
     String title =
         titleWithPlaceholders.replaceAll(config.placeholderID, id.toString());
     return title.replaceAll(config.placeholderName, name);
@@ -50,25 +54,24 @@ class _ShowDataState extends State<ShowData> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            color: const Color.fromARGB(210, 255, 207, 136),
-            child: StatefulBuilder(
-                builder: ((BuildContext context, StateSetter setInnerState) {
-              return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    const Spacer(),
-                    Text(_subTitle!,
-                        style: const TextStyle(
-                          fontFamily: "Railway",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.blueGrey,
-                        )),
-                    const Spacer(),
+    return Column(mainAxisAlignment: MainAxisAlignment.start, children: <
+        Widget>[
+      Container(
+        color: const Color.fromARGB(210, 255, 207, 136),
+        child: StatefulBuilder(
+            builder: ((BuildContext context, StateSetter setInnerState) {
+          return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const Spacer(),
+                Text(_subTitle!,
+                    style: const TextStyle(
+                      fontFamily: "Railway",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.blueGrey,
+                    )),
+                const Spacer(),
                 widget.topics.isNotEmpty
                     ? DropdownButton<String>(
                         onChanged: (String? newValue) {
@@ -113,24 +116,25 @@ class _ShowDataState extends State<ShowData> {
                         }).toList())
                     : Container()
               ]);
-            })),
-          ),
-          ValueListenableBuilder<String>(
-              valueListenable: _selectedItem,
-              builder: (BuildContext context, String value, Widget? child) {
-                int index = 0;
-                for (Map<String, Object> topic in widget.topics) {
-                  index++;
-                  if (topic['topic'].toString() == value) {
-                    break;
-                  }
-                }
+        })),
+      ),
+      ValueListenableBuilder<String>(
+          valueListenable: _selectedItem,
+          builder: (BuildContext context, String value, Widget? child) {
+            int index = 0;
+            for (Map<String, Object> topic in widget.topics) {
+              index++;
+              if (topic['topic'].toString() == value) {
+                break;
+              }
+            }
             _subTitle = _processTitle(
                 widget.topics[index - 1]['subTitle'] as String,
                 widget.id,
-                widget.name);
-                return widget.topics[index - 1]['widget'] as Widget;
-              }),
-        ]);
+                widget.name,
+                _config);
+            return widget.topics[index - 1]['widget'] as Widget;
+          }),
+    ]);
   }
 }

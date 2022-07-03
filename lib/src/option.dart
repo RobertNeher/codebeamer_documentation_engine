@@ -4,54 +4,66 @@ import 'package:http/http.dart' as http;
 
 import 'package:codebeamer_documentation_engine/utils/utils.dart';
 
+import 'package:codebeamer_documentation_engine/src/schema.dart';
+
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
 
-Future<List<Option>> fetchOptions(int id) async {
-  int trackerID = id ~/ 100;
-  int fieldID = id % 100;
+Future<List<Option>> fetchOptions(Schema field) async {
+  List<Option> data = <Option>[];
 
-  List<Option> options = <Option>[];
-  Configuration config = Configuration();
-  List<OptionPage> pages = <OptionPage>[];
-  OptionPage stats;
-
-  final int maxPageSize = config.maxPageSize;
-
-  int maxPages;
-
-  var response = await http.get(
-      Uri.https(config.baseURLs['homeServer'] as String,
-          '${config.REST_URL_Prefix}/trackers/$trackerID/fields/$fieldID/options'),
-      // {'page': '1', 'pageSize': maxPageSize.toString()}),
-      headers: httpHeader());
-
-  if (response.statusCode == 200) {
-    Map<String, dynamic> jsonRaw = jsonDecode(response.body);
-    stats = OptionPage.fromJson(jsonRaw);
-    maxPages = (stats.total / maxPageSize).ceil();
-  } else {
-    return [];
+  // TODO: Remove print
+  print(field.toString());
+  for (var option in field.options!) {
+    data.add(Option(id: option.id!, name: option.name!));
   }
-  for (int pageNr = 1; pageNr <= maxPages; pageNr++) {
-    response = await http.get(
-        Uri.https(config.baseURLs['homeServer'] as String,
-            '${config.REST_URL_Prefix}/trackers/$trackerID/fields/$fieldID/options'),
-        // {'page': pageNr.toString(), 'pageSize': maxPageSize.toString()}),
-        headers: httpHeader());
+  return data;
 
-    if (response.statusCode == 200) {
-      OptionPage pageItem = OptionPage.fromJson(jsonDecode(response.body));
-      pages.add(pageItem);
-    } else {
-      print("Error fetching options ${response.statusCode}");
-      return [];
-    }
-  }
+// Future<List<Option>> fetchOptions(int id) async {
+  // int trackerID = id ~/ 100;
+  // int fieldID = id % 100;
 
-  for (var page in pages) {
-    options.addAll(page.options);
-  }
-  return options;
+  // List<Option> options = <Option>[];
+  // Configuration config = Configuration();
+  // List<OptionPage> pages = <OptionPage>[];
+  // OptionPage stats;
+
+  // final int maxPageSize = config.maxPageSize;
+
+  // int maxPages;
+
+  // var response = await http.get(
+  //     Uri.https(config.baseURLs['homeServer'] as String,
+  //         '${config.REST_URL_Prefix}/trackers/$trackerID/fields/$fieldID/options'),
+  //     // {'page': '1', 'pageSize': maxPageSize.toString()}),
+  //     headers: httpHeader());
+
+  // if (response.statusCode == 200) {
+  //   Map<String, dynamic> jsonRaw = jsonDecode(response.body);
+  //   stats = OptionPage.fromJson(jsonRaw);
+  //   maxPages = (stats.total / maxPageSize).ceil();
+  // } else {
+  //   return [];
+  // }
+  // for (int pageNr = 1; pageNr <= maxPages; pageNr++) {
+  //   response = await http.get(
+  //       Uri.https(config.baseURLs['homeServer'] as String,
+  //           '${config.REST_URL_Prefix}/trackers/$trackerID/fields/$fieldID/options'),
+  //       // {'page': pageNr.toString(), 'pageSize': maxPageSize.toString()}),
+  //       headers: httpHeader());
+
+  //   if (response.statusCode == 200) {
+  //     OptionPage pageItem = OptionPage.fromJson(jsonDecode(response.body));
+  //     pages.add(pageItem);
+  //   } else {
+  //     print("Error fetching options ${response.statusCode}");
+  //     return [];
+  //   }
+  // }
+
+  // for (var page in pages) {
+  //   options.addAll(page.options);
+  // }
+  // return options;
 }
 
 class Option {

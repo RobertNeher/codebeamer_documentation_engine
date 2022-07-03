@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/schema.dart';
 import 'package:codebeamer_documentation_engine/src/tracker_type.dart';
 import 'package:flutter/material.dart';
 
@@ -85,8 +86,10 @@ class FieldTopic extends StatelessWidget {
   Widget build(BuildContext context) {
     Configuration config = Configuration();
     return Expanded(
-        child: TableView<fld.Field>(context,
-            columnLabels: config.fieldHeadings, itemID: id, callback: setItem));
+        child: TableView<Schema>(context,
+            columnLabels: config.schemaHeadings,
+            itemID: id,
+            callback: setItem));
   }
 }
 
@@ -97,7 +100,7 @@ class OptionTopic extends StatelessWidget {
   Widget build(BuildContext context) {
     Configuration config = Configuration();
     return Expanded(
-        child: TableView<Option>(context,
+        child: TableView<Schema>(context,
             columnLabels: config.optionHeadings, itemID: id, callback: () {}));
   }
 }
