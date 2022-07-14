@@ -4,6 +4,7 @@ import 'package:codebeamer_documentation_engine/src/group.dart';
 import 'package:codebeamer_documentation_engine/src/home.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
 import 'package:codebeamer_documentation_engine/src/license.dart';
+import 'package:codebeamer_documentation_engine/src/option.dart';
 import 'package:codebeamer_documentation_engine/src/project.dart';
 import 'package:codebeamer_documentation_engine/src/relation.dart';
 import 'package:codebeamer_documentation_engine/src/tracker.dart';
@@ -32,8 +33,13 @@ Future<List<T>> fetchData<T>(var objectID) async {
     data = await fetchWorkItems(objectID) as List<T>;
   } else if (T == Schema) {
     data = await fetchSchema(objectID) as List<T>;
-    // } else if (T == Option) {
-    //   data = fetchOptions(objectID) as List<T>;
+  } else if (T == Option) {
+    print('Fetching options'); // TODO: Remove print
+
+    data = fetchOptions(objectID) as List<T>;
+
+    print('Collected! $data'); // TODO: Remove print
+
   } else if (T == Relation) {
     data = await fetchRelations(objectID) as List<T>;
   } else if (T == Transition) {

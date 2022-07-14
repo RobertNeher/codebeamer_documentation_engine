@@ -78,42 +78,52 @@ class TableViewState<T> extends State<TableView<T>> {
                                 'Error fetching $T data: ${snapshot.stackTrace}'),
                           );
                         } else if (snapshot.hasData) {
-                          return Expanded(
-                            child: Container(
-                              alignment: Alignment.topCenter,
-                              child: DataTable2(
-                                showCheckboxColumn: false,
-                                border: TableBorder.all(
-                                  color: Colors.orange,
-                                  width: 0.5,
-                                  style: BorderStyle.solid,
-                                  borderRadius: BorderRadius.zero,
-                                ),
-                                columns: _getHeadings(widget.columnLabels!),
-                                rows: _getRows(snapshot.data!,
-                                    widget.columnLabels!.length),
-                                dataRowColor: MaterialStateProperty.all(
-                                    Colors.transparent),
-                                dataTextStyle: const TextStyle(
-                                  fontFamily: 'Raleway',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black,
-                                ),
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 199, 198, 198),
-                                ),
-                                headingRowColor:
-                                    MaterialStateProperty.all(Colors.orange),
-                                headingTextStyle: const TextStyle(
-                                  fontFamily: 'Raleway',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          );
+                          return (snapshot.data!.length > 0)
+                              ? Expanded(
+                                  child: Container(
+                                    alignment: Alignment.topCenter,
+                                    child: DataTable2(
+                                      showCheckboxColumn: false,
+                                      border: TableBorder.all(
+                                        color: Colors.orange,
+                                        width: 0.5,
+                                        style: BorderStyle.solid,
+                                        borderRadius: BorderRadius.zero,
+                                      ),
+                                      columns:
+                                          _getHeadings(widget.columnLabels!),
+                                      rows: _getRows(snapshot.data!,
+                                          widget.columnLabels!.length),
+                                      dataRowColor: MaterialStateProperty.all(
+                                          Colors.transparent),
+                                      dataTextStyle: const TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                      ),
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 199, 198, 198),
+                                      ),
+                                      headingRowColor:
+                                          MaterialStateProperty.all(
+                                              Colors.orange),
+                                      headingTextStyle: const TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : const Center(
+                                  child: BHCDialogBox(
+                                      title: 'No data',
+                                      description:
+                                          'No data available\nfor this topic!',
+                                      buttonText: 'Dismiss'));
                         } else {
                           return const Center(
                             child: CircularProgressIndicator(),
@@ -246,16 +256,9 @@ class TableViewState<T> extends State<TableView<T>> {
         dataRow.add(DataCell(Text(field.valueModel)));
         dataRow.add(DataCell(Text(field.title)));
         dataRow.add(DataCell(Text(field.trackerItemField)));
-      } else if (T == Schema) {
-        Schema field = object as Schema;
-        dataRow.add(DataCell(Text(field.id.toString())));
-        dataRow.add(DataCell(Text(field.name!)));
-        dataRow.add(DataCell(Text(field.type!)));
-        dataRow.add(DataCell(Text(field.valueModel!)));
-        dataRow.add(DataCell(Text(field.trackerItemField!)));
-        dataRow.add(DataCell(Text(field.title!)));
       } else if (T == Option) {
         Option option = object as Option;
+        print('Option: ${option.name}\n'); // TODO: Remove print
         dataRow.add(DataCell(Text(option.id.toString())));
         dataRow.add(DataCell(Text(option.name)));
       } else if (T == Transition) {
@@ -276,7 +279,7 @@ class TableViewState<T> extends State<TableView<T>> {
       tableRows.add(DataRow2(
           cells: dataRow,
           onSelectChanged: (bool? value) {
-            int selectedID = 0;
+            int selectedID;
             String itemName = '';
 
             T object = data[rowIndex];
@@ -324,27 +327,22 @@ class TableViewState<T> extends State<TableView<T>> {
                               'Details of work item "${config.placeholderName}" (${config.placeholderID})',
                           T: WorkItem),
                       bottomSheet: PoweredBy())));
-              // } else if (T == fld.Field) {
-              //   fld.Field selectedField = (object as fld.Field);
-            } else if (T == Schema) {
-              Schema selectedField = (object as Schema);
+            } else if (T == fld.Field) {
+              fld.Field selectedField = (object as fld.Field);
+              selectedID = object.id;
 
               switch (selectedField.type) {
                 case 'OptionChoice':
                   {
-                    selectedID = (object as Schema).id!;
-
+                    selectedID =
+                        selectedField.trackerID * 1000 + selectedField.id;
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Scaffold(
                             appBar: BHCBar(),
-                            body: ShowData(
-                                topics: config.optionTopics,
-                                id: selectedID,
-                                name: (object as Schema).name!,
-                                optionField: (object as Schema),
-                                title:
-                                    'Options of field "${config.placeholderName}" (${config.placeholderID})',
-                                T: Option),
+                            body: TableView<Option>(context,
+                                columnLabels: config.optionHeadings,
+                                itemID: selectedID,
+                                callback: () {}),
                             bottomSheet: PoweredBy())));
                     break;
                   }
@@ -356,19 +354,23 @@ class TableViewState<T> extends State<TableView<T>> {
                               title: 'Field type',
                               description:
                                   'Field of type ${selectedField.type}',
-                              buttonText: 'OK',
+                              buttonText: 'Dismiss',
                             ));
                     break;
                   }
               }
-              // } else if (T == Schema) {
-              //   selectedID = (object as Schema).id!;
-            } else if (T == Option) {
+            } else {
               selectedID = 0;
-            } else if (T == Transition) {
-              selectedID = 0;
-            } else if (T == bl.Baseline) {
-              selectedID = 0;
+
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const BHCDialogBox(
+                        title: 'Unknown Topic',
+                        description:
+                            'Unknown topic requested.\nApplication is not able to display it!',
+                        buttonText: 'Dismiss');
+                  });
             }
             widget.callback(selectedID, itemName);
           }));

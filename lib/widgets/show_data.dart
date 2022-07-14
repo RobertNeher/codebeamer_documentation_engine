@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:codebeamer_documentation_engine/config/configuration.dart';
 
-import 'package:codebeamer_documentation_engine/src/schema.dart';
+import 'package:codebeamer_documentation_engine/src/field.dart';
 
 class ShowData extends StatefulWidget {
   ShowData(
@@ -11,13 +11,13 @@ class ShowData extends StatefulWidget {
       required this.title,
       required this.id,
       required this.name,
-      this.optionField,
+      // this.optionField,
       required this.T})
       : super(key: key);
   String title;
   int id;
   String name;
-  Schema? optionField;
+  // Field? optionField;
   List<Map<String, Object>> topics;
   Type T;
 

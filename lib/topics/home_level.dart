@@ -1,17 +1,18 @@
-import 'package:codebeamer_documentation_engine/src/schema.dart';
-import 'package:codebeamer_documentation_engine/src/tracker_type.dart';
+import 'package:codebeamer_documentation_engine/widgets/BHC_dialog.dart';
 import 'package:flutter/material.dart';
+
+import 'package:codebeamer_documentation_engine/config/configuration.dart';
+
+import 'package:codebeamer_documentation_engine/widgets/table_view.dart';
 
 import 'package:codebeamer_documentation_engine/src/field.dart' as fld;
 import 'package:codebeamer_documentation_engine/src/option.dart';
 import 'package:codebeamer_documentation_engine/src/transition.dart';
 import 'package:codebeamer_documentation_engine/src/wiki.dart';
 import 'package:codebeamer_documentation_engine/src/work_item.dart';
-
-import 'package:codebeamer_documentation_engine/config/configuration.dart';
-import 'package:codebeamer_documentation_engine/widgets/table_view.dart';
 import 'package:codebeamer_documentation_engine/src/project.dart';
 import 'package:codebeamer_documentation_engine/src/tracker.dart';
+import 'package:codebeamer_documentation_engine/src/tracker_type.dart';
 
 int id = 0;
 String name = '';
@@ -86,21 +87,33 @@ class FieldTopic extends StatelessWidget {
   Widget build(BuildContext context) {
     Configuration config = Configuration();
     return Expanded(
-        child: TableView<Schema>(context,
-            columnLabels: config.schemaHeadings,
-            itemID: id,
-            callback: setItem));
+        child: TableView<fld.Field>(context,
+            columnLabels: config.fieldHeadings, itemID: id, callback: setItem));
   }
 }
 
 class OptionTopic extends StatelessWidget {
   const OptionTopic({Key? key}) : super(key: key);
 
+  // String optionsList = '';
+  // fetchOptions(id).then((options) {
+  //   for (Option option in options) {
+  //     print(option); // TODO: Remove print
+
+  //     optionsList += '${option.id}: ${option.name}\n';
+  //   }
+  // });
+  // return BHCDialogBox(
+  //     title: 'Options of field "$id"',
+  //     description: optionsList,
+  //     buttonText: "OK");
+
   @override
   Widget build(BuildContext context) {
     Configuration config = Configuration();
+
     return Expanded(
-        child: TableView<Schema>(context,
+        child: TableView<Option>(context,
             columnLabels: config.optionHeadings, itemID: id, callback: () {}));
   }
 }
@@ -146,6 +159,7 @@ class TrackerTypeTopic extends StatelessWidget {
             callback: () {}));
   }
 }
+
 // TODO: Not complete, needs some concept
 class ChildrenTopic extends StatelessWidget {
   const ChildrenTopic({Key? key}) : super(key: key);

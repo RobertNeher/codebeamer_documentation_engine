@@ -245,7 +245,7 @@ class Configuration {
     {
       'topic': 'Options',
       'icon': Icons.select_all_sharp,
-      'widget': const OptionTopic(),
+      'widget': BaselineTopic(),
       'subTitle': 'Options of field "$_placeholderName" ($_placeholderID)"'
     },
   ];
