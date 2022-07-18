@@ -1,7 +1,4 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
-import 'package:codebeamer_documentation_engine/main.dart';
 
 const double PADDING = 5.0;
 const double AVATAR_RADIUS = 50.0;
