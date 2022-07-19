@@ -1,4 +1,4 @@
-import 'package:codebeamer_documentation_engine/src/tracker_type.dart';
+import 'package:codebeamer_documentation_engine/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:data_table_2/data_table_2.dart';
 
@@ -15,7 +15,6 @@ import 'package:codebeamer_documentation_engine/src/project.dart';
 import 'package:codebeamer_documentation_engine/src/tracker.dart';
 import 'package:codebeamer_documentation_engine/src/work_item.dart';
 import 'package:codebeamer_documentation_engine/utils/fetch_data.dart';
-import 'package:codebeamer_documentation_engine/src/schema.dart';
 import 'package:codebeamer_documentation_engine/src/wiki.dart';
 import 'package:codebeamer_documentation_engine/src/transition.dart';
 import 'package:codebeamer_documentation_engine/src/relation.dart';
@@ -25,6 +24,7 @@ import 'package:codebeamer_documentation_engine/src/home.dart';
 import 'package:codebeamer_documentation_engine/src/document.dart';
 import 'package:codebeamer_documentation_engine/src/job.dart';
 import 'package:codebeamer_documentation_engine/src/field.dart' as fld;
+import 'package:codebeamer_documentation_engine/src/tracker_type.dart';
 
 class TableView<T> extends StatefulWidget {
   final BuildContext context;
@@ -46,6 +46,9 @@ class TableViewState<T> extends State<TableView<T>> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => showToast(context, 'Click on row to retrieve more details!'));
   }
 
   @override
@@ -136,7 +139,7 @@ class TableViewState<T> extends State<TableView<T>> {
                       }
                     }),
               ],
-            ))
+            )),
           ]);
   }
 
@@ -288,6 +291,7 @@ class TableViewState<T> extends State<TableView<T>> {
               selectedID = 0;
             } else if (T == Project) {
               selectedID = (object as Project).id;
+
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Scaffold(
                       appBar: BHCBar(),
@@ -372,7 +376,9 @@ class TableViewState<T> extends State<TableView<T>> {
                         buttonText: 'Dismiss');
                   });
             }
-            widget.callback(selectedID, itemName);
+            if (T != Wiki) {
+              widget.callback(selectedID, itemName);
+            }
           }));
     }
     return tableRows;
