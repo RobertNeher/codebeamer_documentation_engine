@@ -10,8 +10,8 @@ import 'package:codebeamer_documentation_engine/topics/home_level.dart';
 import 'package:codebeamer_documentation_engine/topics/about.dart';
 
 class Configuration {
-  static String _REST_User = 'ROBNEH01';
-  static String _REST_Password = 'INfLuxTeREST';
+  static const String _REST_User = 'ROBNEH01';
+  static const String _REST_Password = '1ukv0z810qkv';
   // static String _REST_User = 'bond';
   // static String _REST_Password = '007';
   final Map<String, int> _fieldTypes = <String, int>{}; // codebeamer Data Types
