@@ -137,6 +137,11 @@ class Configuration {
     'To status': 100,
   };
 
+  static final Map<String, double> _itemRefHeadings = {
+    'ID': 30,
+    'Name': 200,
+  };
+
   static final List<Map<String, Object>> _homeTopics = [
     {
       'topic': 'Home',
@@ -316,6 +321,10 @@ class Configuration {
 
   Map<String, double> get schemaHeadings {
     return _schemaHeadings;
+  }
+
+  Map<String, double> get itemRefsHeadings {
+    return _itemRefHeadings;
   }
 
   Map<String, String> get baseURLs {

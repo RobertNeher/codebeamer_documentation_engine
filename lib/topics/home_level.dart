@@ -1,3 +1,4 @@
+import 'package:codebeamer_documentation_engine/src/workitem_children.dart';
 import 'package:codebeamer_documentation_engine/widgets/BHC_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,7 @@ class TrackerTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
     return Expanded(
         child: TableView<Tracker>(
       context,
@@ -57,7 +58,7 @@ class WikiTopic extends StatelessWidget {
   WikiTopic({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
 
     return Expanded(
       child: TableView<Wiki>(context,
@@ -71,7 +72,7 @@ class WorkItemTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
     return Expanded(
         child: TableView<WorkItem>(context,
             columnLabels: config.workItemHeadings,
@@ -85,7 +86,7 @@ class FieldTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
     return Expanded(
         child: TableView<fld.Field>(context,
             columnLabels: config.fieldHeadings, itemID: id, callback: setItem));
@@ -110,7 +111,7 @@ class OptionTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
 
     return Expanded(
         child: TableView<Option>(context,
@@ -123,7 +124,7 @@ class BaselineTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
     return Expanded(
         child: TableView<Baseline>(context,
             columnLabels: config.baselineHeadings,
@@ -137,7 +138,7 @@ class TransitionTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
     return Expanded(
         child: TableView<Transition>(context,
             columnLabels: config.transitionHeadings,
@@ -151,7 +152,7 @@ class TrackerTypeTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
     return Expanded(
         child: TableView<TrackerType>(context,
             columnLabels: config.trackerTypeHeadings,
@@ -166,9 +167,11 @@ class ChildrenTopic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Configuration config = Configuration();
+    final Configuration config = Configuration();
     return Expanded(
-        child: TableView<fld.Field>(context,
-            columnLabels: config.fieldHeadings, itemID: id, callback: setItem));
+        child: TableView<ItemRef>(context,
+            columnLabels: config.itemRefsHeadings,
+            itemID: id,
+            callback: setItem));
   }
 }

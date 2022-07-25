@@ -15,6 +15,7 @@ import 'package:codebeamer_documentation_engine/src/work_item.dart';
 import 'package:codebeamer_documentation_engine/src/schema.dart';
 import 'package:codebeamer_documentation_engine/src/wiki.dart';
 import 'package:codebeamer_documentation_engine/src/baseline.dart' as bl;
+import 'package:codebeamer_documentation_engine/src/workitem_children.dart';
 
 Future<List<T>> fetchData<T>(var objectID) async {
   List<T> data = <T>[];
@@ -52,6 +53,8 @@ Future<List<T>> fetchData<T>(var objectID) async {
     data = await fetchSchema(objectID) as List<T>;
   } else if (T == Group) {
     data = await fetchGroups() as List<T>;
+  } else if (T == ItemRef) {
+    data = await fetchWorkItemChildren(objectID) as List<T>;
   } else if (T == User) {
     data = await fetchUsers(objectID) as List<T>;
   } else if (T == License) {
